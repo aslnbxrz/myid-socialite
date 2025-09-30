@@ -85,7 +85,8 @@ class Provider extends AbstractProvider
         $api = $this->createApiClient();
         $method = (string)$this->getConfig('method', 'strong');
         $scope = (string)$this->getConfig('user_scope', 'common_data');
-        $token = $api->exchangeAuthCode($code, $method, $scope);
+        $redirectUri = (string)$this->redirectUrl;
+        $token = $api->exchangeAuthCode($code, $redirectUri, $method, $scope);
 
         return [
             'access_token' => $token,

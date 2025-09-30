@@ -20,7 +20,7 @@ class ApiClient
 
     public function getClientCredentialsToken(): string
     {
-        $response = $this->http->post($this->baseUrl . '/api/v1/oauth2/access-token', [
+        $response = $this->http->post($this->baseUrl . '/oauth/token', [
             RequestOptions::FORM_PARAMS => [
                 'grant_type' => 'client_credentials',
                 'client_id' => $this->clientId,
@@ -80,7 +80,7 @@ class ApiClient
         return json_decode($response->getBody()->getContents(), true) ?: [];
     }
 
-    public function exchangeAuthCode(string $code, string $method = 'strong', string $scope = 'common_data'): string
+    public function exchangeAuthCode(string $code, string $redirectUri, string $method = 'strong', string $scope = 'common_data'): string
     {
         $response = $this->http->post($this->baseUrl . '/api/v1/oauth2/access-token', [
             RequestOptions::FORM_PARAMS => [
@@ -88,6 +88,7 @@ class ApiClient
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
                 'code' => $code,
+                'redirect_uri' => $redirectUri,
                 'method' => $method,
                 'scope' => $scope,
             ],
@@ -102,7 +103,7 @@ class ApiClient
 
     public function getMe(string $userAccessToken): array
     {
-        $response = $this->http->get($this->baseUrl . '/api/v1/users/me', [
+        $response = $this->http->get($this->baseUrl . '/oauth/userinfo', [
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $userAccessToken,
