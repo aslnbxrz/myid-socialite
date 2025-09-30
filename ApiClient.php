@@ -22,7 +22,7 @@ class ApiClient
     {
         $response = $this->http->post($this->baseUrl . '/api/v1/oauth2/access-token', [
             RequestOptions::FORM_PARAMS => [
-                'grant_type' => 'authorization_code',
+                'grant_type' => 'client_credentials',
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
             ],
