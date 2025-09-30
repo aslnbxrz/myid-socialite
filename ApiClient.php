@@ -9,10 +9,11 @@ class ApiClient
 {
     public function __construct(
         private ClientInterface $http,
-        private string $baseUrl,
-        private string $clientId,
-        private string $clientSecret,
-    ) {
+        private string          $baseUrl,
+        private string          $clientId,
+        private string          $clientSecret,
+    )
+    {
         $this->baseUrl = rtrim($baseUrl, '/');
     }
 
@@ -20,11 +21,13 @@ class ApiClient
     {
         $response = $this->http->post($this->baseUrl . '/api/v1/oauth2/access-token', [
             RequestOptions::FORM_PARAMS => [
-                'grant_type' => 'client_credentials',
+                'grant_type' => 'authorization_code',
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
             ],
-            'headers' => ['Accept' => 'application/json'],
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ],
         ]);
 
         $data = json_decode($response->getBody()->getContents(), true) ?: [];
