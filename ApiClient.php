@@ -18,16 +18,18 @@ class ApiClient
         $this->baseUrl = rtrim($baseUrl, '/');
     }
 
-    public function getClientCredentialsToken(): string
+    public function getClientCredentialsToken(string $redirectUri): string
     {
-        $response = $this->http->post($this->baseUrl . '/oauth/token', [
+        $response = $this->http->post($this->baseUrl . '/api/v1/oauth2/access-token', [
             RequestOptions::FORM_PARAMS => [
                 'grant_type' => 'client_credentials',
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
+                'redirect_uri' => $redirectUri,
             ],
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json',
             ],
         ]);
 
@@ -103,7 +105,7 @@ class ApiClient
 
     public function getMe(string $userAccessToken): array
     {
-        $response = $this->http->get($this->baseUrl . '/oauth/userinfo', [
+        $response = $this->http->get($this->baseUrl . '/api/v1/users/me', [
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $userAccessToken,

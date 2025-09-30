@@ -15,7 +15,7 @@ class Provider extends AbstractProvider
     {
         // 1) Obtain client_credentials token
         $api = $this->createApiClient();
-        $clientToken = $api->getClientCredentialsToken();
+        $clientToken = $api->getClientCredentialsToken((string)$this->redirectUrl);
 
         // 2) Create session
         $externalId = $this->parameters['external_id'] ?? (class_exists(Str::class) ? (string)Str::uuid() : uniqid('myid_', true));
