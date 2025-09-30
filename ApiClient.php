@@ -4,6 +4,7 @@ namespace Aslnbxrz\MyID;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Facades\Log;
 
 class ApiClient
 {
@@ -30,6 +31,8 @@ class ApiClient
             ],
         ]);
 
+        Log::info('getClientCredentialsToken', [$response]);
+
         $data = json_decode($response->getBody()->getContents(), true) ?: [];
         return (string)($data['access_token'] ?? '');
     }
@@ -47,6 +50,8 @@ class ApiClient
                 'Authorization' => 'Bearer ' . $accessToken,
             ],
         ]);
+
+        Log::info('createSession', [$response]);
 
         $data = json_decode($response->getBody()->getContents(), true) ?: [];
         return (string)($data['session_id'] ?? '');
@@ -89,6 +94,8 @@ class ApiClient
             'headers' => ['Accept' => 'application/json'],
         ]);
 
+        Log::info('exchangeAuthCode', [$response]);
+
         $data = json_decode($response->getBody()->getContents(), true) ?: [];
         return (string)($data['access_token'] ?? '');
     }
@@ -101,6 +108,8 @@ class ApiClient
                 'Authorization' => 'Bearer ' . $userAccessToken,
             ],
         ]);
+
+        Log::info('getMe', [$response]);
 
         return json_decode($response->getBody()->getContents(), true) ?: [];
     }
