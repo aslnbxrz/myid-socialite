@@ -14,7 +14,7 @@ Docs: [MyID Web SDK](https://docs.myid.uz/#/ru/websdk)
 ## Installation
 
 ```bash
-composer require socialiteproviders/myid
+composer require aslnbxrz/myid-socialite
 ```
 
 ## Configuration
